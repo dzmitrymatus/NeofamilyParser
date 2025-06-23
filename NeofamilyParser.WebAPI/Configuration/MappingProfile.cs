@@ -13,6 +13,11 @@ namespace NeofamilyParser.WebAPI.Configuration
                 .ReverseMap();
 
             CreateMap<TaskEntity, TaskApiModel>()
+                .ForMember(dest => dest.Solution, opt =>
+                    {
+                        opt.Condition((src, dest, x, y, context) => (bool)context.Items["includeSolution"] == true);
+                        opt.MapFrom(src => src);
+                    })
                 .ReverseMap();
         }
     }

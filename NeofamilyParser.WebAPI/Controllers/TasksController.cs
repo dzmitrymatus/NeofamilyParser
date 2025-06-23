@@ -38,18 +38,22 @@ namespace NeofamilyParser.WebAPI.Controllers
             int? part,
             int? number,
             string? source, 
-            bool includeSolution = false)
+            bool includeSolution = false,
+            int skip = 0,
+            int take = int.MaxValue)
         {
             Expression<Func<IQueryable<TaskEntity>, IQueryable<TaskEntity>>> filterExpression
                 = items => items.Where(item => section == null || item.Section == section)
                               .Where(item => theme == null || item.Theme == theme)
                               .Where(item => part == null || item.Part == part)
                               .Where(item => number == null || item.Number == number)
-                              .Where(item => source == null || item.Source == source);
-
+                              .Where(item => source == null || item.Source == source)
+                              .Skip(skip)
+                              .Take(take);
 
             return await this._repository.GetAllAsync(filterExpression)
-                .ContinueWith(task => _mapper.Map<IEnumerable<TaskApiModel>>(task.Result))
+                .ContinueWith(task => _mapper.Map<IEnumerable<TaskApiModel>>(task.Result, 
+                                        opt => opt.Items.Add("includeSolution", includeSolution)))
                 .ContinueWith(task => Results.Json(task.Result));
         }
 
