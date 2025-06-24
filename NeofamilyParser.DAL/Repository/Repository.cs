@@ -38,7 +38,7 @@ namespace NeofamilyParser.DAL.Repository
 
         public async Task<TEntity?> GetRandomAsync()
         {
-            return await DbSet.OrderBy(r => EF.Functions.Random())
+            return await DbSet.OrderBy(x => Guid.NewGuid())
                 .FirstAsync();
         }
 
@@ -48,6 +48,16 @@ namespace NeofamilyParser.DAL.Repository
             await DbContext.SaveChangesAsync();
         }
 
+        public async Task InsertRangeAsync(IEnumerable<TEntity> entities)
+        {
+            var entityType = DbContext.Model.FindEntityType(typeof(TEntity)).GetTableName();
+            await DbSet.AddRangeAsync(entities);
+            await DbContext.Database.OpenConnectionAsync();
+            await DbContext.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT dbo.{entityType} ON");           
+            await DbContext.SaveChangesAsync();
+            await DbContext.Database.CloseConnectionAsync();
+        }
+         
         public async Task UpdateAsync(TEntity entity)
         {
             DbSet.Update(entity);

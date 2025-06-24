@@ -26,8 +26,8 @@ namespace NeofamilyParser.WebAPI.Controllers
             return await this._repository.GetRandomAsync()
                 .ContinueWith(task => 
                 {
-                    var result = _mapper.Map<TaskApiModel>(task.Result);
-                    if(includeSolution) result.Solution = _mapper.Map<TaskSolutionApiModel>(task.Result);
+                    var result = _mapper.Map<TaskApiModel>(task.Result, opt => 
+                                    opt.Items.Add("includeSolution", includeSolution));
                     return result;
                 })
                 .ContinueWith(task => Results.Json(task.Result));
@@ -67,7 +67,7 @@ namespace NeofamilyParser.WebAPI.Controllers
         }
 
         [HttpGet("{taskId}/checkAnswer/{answer}")]
-        public async Task<IResult> GetTaskSolution(int taskId, string answer)
+        public async Task<IResult> CheckTaskSolution(int taskId, string answer)
         {
             return await this._repository.GetAsync(taskId)
                 .ContinueWith(task => task.Result?.Answer == answer)

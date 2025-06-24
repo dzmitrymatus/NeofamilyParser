@@ -1,7 +1,10 @@
+using AngleSharp.Html.Parser;
 using Microsoft.EntityFrameworkCore;
+using NeofamilyParser.BLL.ApiClient;
 using NeofamilyParser.DAL;
 using NeofamilyParser.DAL.Repository;
 using NeofamilyParser.WebAPI.Configuration;
+using RestSharp;
 
 namespace NeofamilyParser.WebAPI
 {
@@ -23,6 +26,7 @@ namespace NeofamilyParser.WebAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseAuthorization();
             app.MapControllers();
 
@@ -38,7 +42,9 @@ namespace NeofamilyParser.WebAPI
 
         private static void ConfigureBusinessServices(IServiceCollection services, IConfiguration configuration)
         {
-            //todo
+            services.AddScoped<IRestClient, RestClient>();
+            services.AddScoped<IHtmlParser, HtmlParser>();
+            services.AddScoped<INeofamilyApiClient, NeofamilyApiClient>();
         }
 
         private static void ConfigureAppServices(IServiceCollection services, IConfiguration configuration)

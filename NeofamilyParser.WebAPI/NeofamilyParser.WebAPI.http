@@ -3,3 +3,7 @@
 POST {{NeofamilyParser.WebAPI_HostAddress}}/api/parsing/parse
 
 ###
+
+GET {{NeofamilyParser.WebAPI_HostAddress}}/api/tasks/random?includeSolution=true
+
+###

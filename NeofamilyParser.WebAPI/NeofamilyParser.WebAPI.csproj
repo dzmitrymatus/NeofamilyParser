@@ -21,4 +21,9 @@
     <ProjectReference Include="..\NeofamilyParser.BLL\NeofamilyParser.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Solution\" />
+    <Folder Include="wwwroot\Images\Question\" />
+  </ItemGroup>
+
 </Project>

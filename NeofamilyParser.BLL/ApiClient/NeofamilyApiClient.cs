@@ -8,17 +8,17 @@ using System.Text.RegularExpressions;
 
 namespace NeofamilyParser.BLL.ApiClient
 {
-    public class NeofamilyApiClient
+    public class NeofamilyApiClient : INeofamilyApiClient
     {
         private const string tasksUrl = "https://backend.neofamily.ru/api/task";
         
         private IRestClient _restClient;
         private IHtmlParser _htmlParser;
 
-        public NeofamilyApiClient()
+        public NeofamilyApiClient(IRestClient restClient, IHtmlParser htmlParser)
         {
-            this._restClient = new RestClient();
-            this._htmlParser = new HtmlParser();
+            this._restClient = restClient;
+            this._htmlParser = htmlParser;
         }
 
         public IEnumerable<TaskModel> GetTasks()
@@ -37,7 +37,7 @@ namespace NeofamilyParser.BLL.ApiClient
                 Console.WriteLine(task.Id.ToString());
 
                 task.Solution = this._restClient.Get<TaskSolutionResponseModel>(solutionRequest);
-                Thread.Sleep(400);
+                Thread.Sleep(400);//hack to avoid toomanyrequests
             }
 
             var parsedTasks = this.ParseTasks(tasksResponse.Data);

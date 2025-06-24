@@ -9,6 +9,7 @@ namespace NeofamilyParser.DAL.Repository
         Task<TEntity?> GetAsync(object id);
         Task<TEntity?> GetRandomAsync();
         Task InsertAsync(TEntity entity);
+        Task InsertRangeAsync(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
     }
