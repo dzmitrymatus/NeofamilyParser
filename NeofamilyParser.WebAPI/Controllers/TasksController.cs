@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 
 namespace NeofamilyParser.WebAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
     {

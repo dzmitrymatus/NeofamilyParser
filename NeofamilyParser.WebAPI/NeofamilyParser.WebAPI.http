@@ -1,6 +1,5 @@
-@NeofamilyParser.WebAPI_HostAddress = http://localhost:5072
+@NeofamilyParser.WebAPI_HostAddress = https://localhost:7175
 
-GET {{NeofamilyParser.WebAPI_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{NeofamilyParser.WebAPI_HostAddress}}/api/parsing/parse
 
 ###
