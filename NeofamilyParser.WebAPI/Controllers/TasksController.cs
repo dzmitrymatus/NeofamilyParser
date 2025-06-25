@@ -49,6 +49,7 @@ namespace NeofamilyParser.WebAPI.Controllers
                               .Where(item => part == null || item.Part == part)
                               .Where(item => number == null || item.Number == number)
                               .Where(item => source == null || item.Source == source)
+                              .OrderBy(item => item.Id)
                               .Skip(skip)
                               .Take(take);
 
