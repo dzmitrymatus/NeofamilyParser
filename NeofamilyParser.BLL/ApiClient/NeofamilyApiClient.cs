@@ -26,8 +26,7 @@ namespace NeofamilyParser.BLL.ApiClient
             var tasksRequest = new RestRequest(tasksUrl);
             tasksRequest.AddParameter("subject", "fizika");
             tasksRequest.AddParameter("sort[id]", "asc");
-            //tasksRequest.AddParameter("perPage", int.MaxValue);
-            tasksRequest.AddParameter("perPage", 5);
+            tasksRequest.AddParameter("perPage", int.MaxValue);
             var tasksResponse = this._restClient.Get<TasksResponseModel>(tasksRequest);
 
             foreach(var task in tasksResponse.Data)
@@ -49,8 +48,8 @@ namespace NeofamilyParser.BLL.ApiClient
             var parsedTasks = new List<TaskModel>();
             var parsingTime = DateTime.Now;
             var sourceRegex = new Regex(@"Источник: (.*)$");
-            var answerRegex = new Regex(@"Ответ: (.*)");
-            var solutionRegex = new Regex(@"Ответ:(.|\n)*$");
+            var answerRegex = new Regex(@"Ответ:\s*(.*)(Источник:|\n|\r)");
+            var solutionRegex = new Regex(@"Ответ:(.|\s|\n|\r)*$");
 
             foreach (var item in tasks)
             {
@@ -83,9 +82,9 @@ namespace NeofamilyParser.BLL.ApiClient
             return result;
         }
 
-        private IDictionary<string, byte[]> GetImages(string input)
+        private IEnumerable<TaskImageModel> GetImages(string input)
         {
-            var images = new Dictionary<string, byte[]>();
+            var images = new List<TaskImageModel>();
             var imageNameRegex = new Regex(@".*\/(.+)$");
             var nodes = this._htmlParser.ParseFragment(input, null).QuerySelectorAll("img");
 
@@ -96,7 +95,9 @@ namespace NeofamilyParser.BLL.ApiClient
                 var image = this._restClient.DownloadData(imageRequest);
                 var imageName = imageNameRegex.Match(imageSource).Groups[1].Value;
 
-                images.Add(imageName, image);
+                images.Add(new TaskImageModel() { 
+                    Name = imageName, Image = image 
+                });
             }
 
             return images;

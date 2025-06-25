@@ -72,5 +72,10 @@ namespace NeofamilyParser.DAL.Repository
                 await DbContext.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteAllAsync()
+        {
+            await DbSet.ExecuteDeleteAsync();
+        }
     }
 }

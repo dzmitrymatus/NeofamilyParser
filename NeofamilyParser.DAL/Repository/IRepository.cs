@@ -12,5 +12,6 @@ namespace NeofamilyParser.DAL.Repository
         Task InsertRangeAsync(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
+        Task DeleteAllAsync();
     }
 }

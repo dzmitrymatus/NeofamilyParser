@@ -31,18 +31,31 @@ namespace NeofamilyParser.WebAPI.Controllers
         {
             var tasks = this._apiClient.GetTasks();
 
+            if(tasks.Any())
+            {
+                //cleanup
+                Directory.EnumerateFiles(Path.Combine(_env.WebRootPath, "Images", "Question"))
+                    .ToList()
+                    .ForEach(System.IO.File.Delete);
+                Directory.EnumerateFiles(Path.Combine(_env.WebRootPath, "Images", "Solution"))
+                    .ToList()
+                    .ForEach(System.IO.File.Delete);
+
+                await _repository.DeleteAllAsync();
+            }
+
             //save images
             foreach (var task in tasks)
             {
                 foreach (var image in task.QuestionImages)
                 {
-                    string path = Path.Combine(_env.WebRootPath, "Images", "Question", image.Key);
-                    System.IO.File.WriteAllBytes(path, image.Value);
+                    string path = Path.Combine(_env.WebRootPath, "Images", "Question", image.Name);
+                    System.IO.File.WriteAllBytes(path, image.Image);
                 }
                 foreach (var image in task.SolutionImages)
                 {
-                    string path = Path.Combine(_env.WebRootPath, "Images", "Solution", image.Key);
-                    System.IO.File.WriteAllBytes(path, image.Value);
+                    string path = Path.Combine(_env.WebRootPath, "Images", "Solution", image.Name);
+                    System.IO.File.WriteAllBytes(path, image.Image);
                 }
             }
 

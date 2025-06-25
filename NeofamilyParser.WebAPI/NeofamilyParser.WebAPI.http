@@ -7,3 +7,19 @@ POST {{NeofamilyParser.WebAPI_HostAddress}}/api/parsing/parse
 GET {{NeofamilyParser.WebAPI_HostAddress}}/api/tasks/random?includeSolution=true
 
 ###
+
+@taskId=341
+GET {{NeofamilyParser.WebAPI_HostAddress}}/api/tasks/solution/{{taskId}}
+
+###
+
+GET {{NeofamilyParser.WebAPI_HostAddress}}/api/tasks/{{taskId}}/checkAnswer/-8
+
+###
+
+@section=string
+@theme=string
+@source=string
+GET {{NeofamilyParser.WebAPI_HostAddress}}/api/tasks/list?includeSolution=true&section=Механика&skip=1&take=1
+
+###

@@ -9,10 +9,16 @@
         public int Number { get; set; }
         public string? Source { get; set; }
         public string? QuestionText { get; set; }
-        public IDictionary<string, byte[]>? QuestionImages { get; set; }
+        public IEnumerable<TaskImageModel>? QuestionImages { get; set; }
         public string? Answer { get; set; }
         public string? SolutionText { get; set; }
-        public IDictionary<string, byte[]>? SolutionImages { get; set; }
+        public IEnumerable<TaskImageModel>? SolutionImages { get; set; }
         public DateTime CreatedAt { get; set; }
+    }
+
+    public class TaskImageModel
+    {
+        public string Name { get; set; }
+        public byte[] Image {  get; set; }
     }
 }

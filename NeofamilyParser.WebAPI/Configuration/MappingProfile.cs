@@ -23,9 +23,9 @@ namespace NeofamilyParser.WebAPI.Configuration
 
             CreateMap<TaskModel, TaskEntity>()
                 .ForMember(dest => dest.QuestionImages, opt =>
-                    opt.MapFrom(x => string.Join(",", x.QuestionImages.Select(y => $"Images/Question/{y.Key}"))))
+                    opt.MapFrom(x => string.Join(",", x.QuestionImages.Select(y => $"Images/Question/{y.Name}"))))
                 .ForMember(dest => dest.SolutionImages, opt =>
-                    opt.MapFrom(x => string.Join(",", x.SolutionImages.Select(y => $"Images/Solution/{y.Key}"))))
+                    opt.MapFrom(x => string.Join(",", x.SolutionImages.Select(y => $"Images/Solution/{y.Name}"))))
                 .ReverseMap();
         }
     }
